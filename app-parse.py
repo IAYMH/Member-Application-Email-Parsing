@@ -59,7 +59,10 @@ for file in fileArray:
           else:
             end = len(mBS)
           appItem = mBS[start:end]
-          appLine += appItem.replace("\n"," ") + "~"
+          # Special formatting changes
+          if field == "Title: ":
+            appItem = appItem.translate(None, ''.join([',','.']))
+          appLine += appItem.replace("\n"," ").strip() + "~"
 
         appLine += dateString
         csvExport.append(appLine)
@@ -67,8 +70,10 @@ for file in fileArray:
 
 
 # Output to CSV
-of = open("newMembers.csv", "w")
+ofName = "newMembers.csv"
+of = open(ofName, "w")
 for item in csvExport:
   of.write(item)
   of.write("\n")
 of.close()
+print("Parsing complete: output as " + ofName)
